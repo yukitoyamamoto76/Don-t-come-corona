@@ -2,27 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
  
-public class CameraScript : MonoBehaviour {
+public class CameraScript : MonoBehaviour
+{
+    //回転速度
+    public float rotationSpeed = 1f;
+    //x軸回転角度の最大値
+    // public float max_rotation_x = 60f;
+    //現在の回転角度
+    private float rotation_x = 20f;
+    private float rotation_y = 0f;
  
-    private GameObject player;   //プレイヤー情報格納用
-    private Vector3 offset;      //相対距離取得用
- 
-	// Use this for initialization
-	void Start () {
-        
-        //unitychanの情報を取得
-        this.player = GameObject.Find("Player");
- 
-        // MainCamera(自分自身)とplayerとの相対距離を求める
-        offset = transform.position - player.transform.position;
- 
-	}
-	
-	// Update is called once per frame
-	void Update () {
- 
-        //新しいトランスフォームの値を代入する
-        transform.position = player.transform.position + offset;
- 
-	}
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKey(KeyCode.LeftArrow)){
+            //回転角度を変更
+            rotation_y -= rotationSpeed;
+            //y軸を軸に左回りにrotationSpeed度回転
+            transform.rotation = Quaternion.Euler(rotation_x, rotation_y, 0);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            //回転角度を変更
+            rotation_y += rotationSpeed;
+            //y軸を軸に左回りにrotationSpeed度回転
+            transform.rotation = Quaternion.Euler(rotation_x, rotation_y, 0);
+        }
+        /*else if (Input.GetKey(KeyCode.UpArrow))
+        {
+            //カメラの縦方向の角度の範囲を指定
+            if(rotation_x < -max_rotation_x){
+                //範囲外のときreturn
+                return;
+            }
+            //回転角度を変更
+            rotation_x -= rotationSpeed;
+            //x軸を軸に上方向に回転
+            transform.rotation = Quaternion.Euler(rotation_x, rotation_y, 0);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            //カメラの縦方向の角度の範囲を指定
+            if (rotation_x > max_rotation_x)
+            {
+                //範囲外のときreturn
+                return;
+            }
+            //回転角度を変更
+            rotation_x += rotationSpeed;
+            //x軸を軸に上方向に回転
+            transform.rotation = Quaternion.Euler(rotation_x, rotation_y, 0);
+        }*/
+    }
 }
